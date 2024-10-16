@@ -1,10 +1,9 @@
 {
-  "name": "Python Dev Container",
+  "name": "JetShift Python 3.12 Dev Container",
   "build": {
     "dockerfile": "Dockerfile",
     "context": "."
   },
-  "image": "jscontainer:latest",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -24,11 +23,9 @@
   },
   "remoteUser": "jsuser",
   "mounts": [
-    "source=E:\\Python\\efetl,target=/workspace/efetl,type=bind,consistency=cached",
-    "source=E:\\Python\\jetshift-core,target=/workspace/jetshift-core,type=bind,consistency=cached"
+    "source=E:\\Python\\jetshift-core,target=/workspaces/jetshift-core,type=bind,consistency=cached"
   ],
   "workspaceFolders": [
-    "/workspace/efetl",
-    "/workspace/jetshift-core"
+    "/workspaces/jetshift-core"
   ]
 }
