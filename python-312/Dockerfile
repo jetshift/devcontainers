@@ -4,7 +4,17 @@ FROM python:3.12-slim
 ARG USERNAME=jsuser
 
 # Install cron, supervisor, and other utilities
-RUN apt-get update && apt-get install -y sudo supervisor cron git nano
+RUN apt-get update && apt-get install -y \
+    sudo \
+    supervisor \
+    cron \
+    git \
+    nano \
+    build-essential \
+    libzstd-dev \
+    python3-dev \
+    gcc \
+    && apt-get clean
 
 # Create a user with the username specified in the build argument and a home directory
 RUN useradd -m -s /bin/bash $USERNAME
@@ -18,14 +28,11 @@ RUN mkdir -p /var/log && \
     chmod 666 /var/log/cron.log /var/log/cron.error.log && \
     chown -R $USERNAME:$USERNAME /var/log
 
-# Copy supervisord configuration
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
 # Switch to non-root user after necessary setup is done
 USER $USERNAME
 
 # Set the working directory for the created user
 WORKDIR /home/$USERNAME
 
-# Start supervisord to manage cron and other processes
-CMD ["/usr/bin/supervisord"]
+# Add the local bin directory to PATH
+ENV PATH="/home/$USERNAME/.local/bin:${PATH}"
